@@ -1,3 +1,3 @@
 # advanced_programming
 
-Final project of lecture <advanced programming>
+Final project of lecture ```advanced programming```
