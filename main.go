@@ -25,5 +25,6 @@ func Init() {
 }
 
 func Register(r *gin.Engine) {
+	UserRegister(r)
 	BlogRegister(r)
 }

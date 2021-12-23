@@ -3,6 +3,7 @@ package clients
 import (
 	"advanced_programming/config"
 	"fmt"
+	"log"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -11,7 +12,7 @@ import (
 var DB *gorm.DB
 
 func InitMysql() {
-	fmt.Println(config.APConfig)
+	log.Printf("%v", config.APConfig)
 	dsn := fmt.Sprintf(
 		"%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local",
 		config.APConfig.Mysql.User,
@@ -22,6 +23,6 @@ func InitMysql() {
 	var err error
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		// log.Error("连接数据库失败, error=" + err.Error())
+		log.Printf("连接数据库失败, error = " + err.Error())
 	}
 }
