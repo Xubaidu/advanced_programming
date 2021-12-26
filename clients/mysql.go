@@ -21,7 +21,9 @@ func InitMysql() {
 		config.APConfig.Mysql.Port,
 		config.APConfig.Mysql.DBName)
 	var err error
-	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+		SkipDefaultTransaction: true,
+	})
 	if err != nil {
 		log.Printf("连接数据库失败, error = " + err.Error())
 	}

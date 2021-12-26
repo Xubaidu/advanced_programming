@@ -2,21 +2,23 @@ package main
 
 import (
 	"advanced_programming/handlers/blog"
+	"advanced_programming/handlers/common"
 	"advanced_programming/handlers/user"
 
 	"github.com/gin-gonic/gin"
 )
 
+func IndexRegister(r *gin.Engine) {
+	IndexGroup := r.Group("/index")
+	IndexGroup.POST("/register", common.RegisterHandler)
+	IndexGroup.POST("/login", common.LoginHandler)
+}
+
 func UserRegister(r *gin.Engine) {
-	userGroup := r.Group("/user")
-	userGroup.POST("/register", user.RegisterHandler)
-	/*
-		userGroup.POST("/login", user.Login)
-		userGroup.POST("/logout", user.Logout)
-		userGroup.GET("/get_info", user.GetInfo)
-		userGroup.POST("/upload_resume", user.UploadResume)
-		userGroup.GET("/download_resume", user.DownloadResume)
-	*/
+	UserGroup := r.Group("/user")
+	UserGroup.POST("/upload_resume", user.UploadResumeHandler)
+	UserGroup.GET("/download_resume", user.DownloadResumeHandler)
+	UserGroup.GET("/get_user_info", user.GetUserInfoHandler)
 }
 
 func BlogRegister(r *gin.Engine) {
@@ -26,4 +28,5 @@ func BlogRegister(r *gin.Engine) {
 	BlogGroup.GET("/show_blog", blog.ShowBlogHandler)
 	BlogGroup.POST("/update_blog", blog.UpdateBlogHandler)
 	BlogGroup.DELETE("/delete_blog", blog.DeleteBlogHandler)
+	BlogGroup.GET("/top_k", blog.TopKBlogHandler)
 }

@@ -11,17 +11,17 @@ import (
 )
 
 func DeleteBlogHandler(c *gin.Context) {
-	req := DeleteBlogRequest{}
-	err := common.BindParams(c, &req)
+	req := &DeleteBlogRequest{}
+	err := common.BindParams(c, req)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusOK, common.BuildHttpErrorResponse(err))
+		c.AbortWithStatusJSON(http.StatusOK, common.BuildRespByErr(err))
 		return
 	}
-	resp, err := services.DeleteBlog(&req)
+	resp, err := services.DeleteBlogService(req)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusOK, common.BuildHttpErrorResponse(err))
+		c.AbortWithStatusJSON(http.StatusOK, common.BuildRespByErr(err))
 		return
 	}
-	c.JSON(constant.OK, common.BuildHttpResponse(constant.OK, "OK", resp))
+	c.JSON(constant.OK, common.BuildResp(constant.OK, "OK", resp))
 	return
 }

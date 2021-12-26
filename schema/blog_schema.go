@@ -14,8 +14,16 @@ type CreateBlogResponse struct {
 	Content string `json:"content"`
 }
 
+type GetBlogRequest struct {
+	Filter map[string]interface{} `json:"filter"`
+}
+
 type GetBlogResponse struct {
 	Blog *models.Blog `json:"blog"`
+}
+
+type GetBlogListRequest struct {
+	Filter map[string]interface{} `json:"filter"`
 }
 
 type GetBlogListResponse struct {

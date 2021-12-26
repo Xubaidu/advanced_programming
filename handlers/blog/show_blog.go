@@ -3,6 +3,7 @@ package blog
 import (
 	"advanced_programming/common"
 	"advanced_programming/constant"
+	. "advanced_programming/schema"
 	"advanced_programming/services"
 	"strconv"
 
@@ -14,12 +15,15 @@ func ShowBlogHandler(c *gin.Context) {
 	if blogID, ok := c.GetQuery(constant.BlogID); ok {
 		filter[constant.ParamMap[constant.BlogID]], _ = strconv.Atoi(blogID) // 为查询条件注入 id
 	}
-	resp, err := services.ShowBlog(filter)
+	req := &GetBlogRequest{
+		Filter: filter,
+	}
+	resp, err := services.ShowBlogService(req)
 	if err != nil {
-		c.AbortWithStatusJSON(constant.OK, common.BuildHttpErrorResponse(err))
+		c.AbortWithStatusJSON(constant.OK, common.BuildRespByErr(err))
 		return
 	}
-	c.JSON(constant.OK, common.BuildHttpResponse(constant.OK, "OK", resp))
+	c.JSON(constant.OK, common.BuildResp(constant.OK, "OK", resp))
 }
 
 func ShowBlogListHandler(c *gin.Context) {
@@ -27,10 +31,13 @@ func ShowBlogListHandler(c *gin.Context) {
 	if limit, ok := c.GetQuery(constant.Limit); ok {
 		filter[constant.ParamMap[constant.Limit]] = limit
 	}
-	resp, err := services.ShowBlogList(filter)
+	req := &GetBlogListRequest{
+		Filter: filter,
+	}
+	resp, err := services.ShowBlogListService(req)
 	if err != nil {
-		c.AbortWithStatusJSON(constant.OK, common.BuildHttpErrorResponse(err))
+		c.AbortWithStatusJSON(constant.OK, common.BuildRespByErr(err))
 		return
 	}
-	c.JSON(constant.OK, common.BuildHttpResponse(constant.OK, "OK", resp))
+	c.JSON(constant.OK, common.BuildResp(constant.OK, "OK", resp))
 }

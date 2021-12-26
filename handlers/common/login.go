@@ -1,4 +1,4 @@
-package blog
+package common
 
 import (
 	"advanced_programming/common"
@@ -10,18 +10,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func UpdateBlogHandler(c *gin.Context) {
-	req := &UpdateBlogRequest{}
+func LoginHandler(c *gin.Context) {
+	req := &LoginRequest{}
 	err := common.BindParams(c, req)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusOK, common.BuildRespByErr(err))
 		return
 	}
-	resp, err := services.UpdateBlogService(req)
+	resp, err := services.LoginService(req)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusOK, common.BuildRespByErr(err))
 		return
 	}
-	c.JSON(constant.OK, common.BuildResp(constant.OK, "OK", resp))
+	c.JSON(200, common.BuildResp(constant.OK, "OK", resp))
 	return
 }

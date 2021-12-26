@@ -4,12 +4,12 @@ package common
 // 只需要实现 Error() string 方法就算实现了 error 接口
 
 type CustomError struct {
-	Code   int
-	ErrMsg string
+	Code int
+	Msg  string
 }
 
 func (err *CustomError) Error() string {
-	return err.ErrMsg
+	return err.Msg
 }
 
 func (err *CustomError) GetCode() int {
@@ -18,7 +18,7 @@ func (err *CustomError) GetCode() int {
 
 func NewError(code int, errMsg string) error {
 	return &CustomError{
-		Code:   code,
-		ErrMsg: errMsg,
+		Code: code,
+		Msg:  errMsg,
 	}
 }

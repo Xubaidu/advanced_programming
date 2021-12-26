@@ -6,7 +6,7 @@ import (
 	. "advanced_programming/schema"
 )
 
-func CreateBlog(req *CreateBlogRequest) (resp *CreateBlogResponse, err error) {
+func CreateBlogService(req *CreateBlogRequest) (resp *CreateBlogResponse, err error) {
 	blog := &models.Blog{
 		AuthorID: req.UserID,
 		Title:    req.Title,
@@ -21,8 +21,8 @@ func CreateBlog(req *CreateBlogRequest) (resp *CreateBlogResponse, err error) {
 	return resp, nil
 }
 
-func ShowBlog(filter map[string]interface{}) (resp *GetBlogResponse, err error) {
-	blog, err := dal.GetBlog(filter)
+func ShowBlogService(req *GetBlogRequest) (resp *GetBlogResponse, err error) {
+	blog, err := dal.GetBlog(req.Filter)
 	if err != nil {
 		return nil, err
 	}
@@ -32,8 +32,8 @@ func ShowBlog(filter map[string]interface{}) (resp *GetBlogResponse, err error) 
 	return resp, nil
 }
 
-func ShowBlogList(filter map[string]interface{}) (resp *GetBlogListResponse, err error) {
-	blogs, err := dal.GetBlogs(filter)
+func ShowBlogListService(req *GetBlogListRequest) (resp *GetBlogListResponse, err error) {
+	blogs, err := dal.GetBlogs(req.Filter)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +43,7 @@ func ShowBlogList(filter map[string]interface{}) (resp *GetBlogListResponse, err
 	return resp, nil
 }
 
-func UpdateBlog(req *UpdateBlogRequest) (resp *UpdateBlogResponse, err error) {
+func UpdateBlogService(req *UpdateBlogRequest) (resp *UpdateBlogResponse, err error) {
 	filter := map[string]interface{}{
 		"id": req.BlogID,
 	}
@@ -63,7 +63,7 @@ func UpdateBlog(req *UpdateBlogRequest) (resp *UpdateBlogResponse, err error) {
 	return resp, nil
 }
 
-func DeleteBlog(req *DeleteBlogRequest) (resp *DeleteBlogResponse, err error) {
+func DeleteBlogService(req *DeleteBlogRequest) (resp *DeleteBlogResponse, err error) {
 	filter := map[string]interface{}{
 		"id": req.BlogID,
 	}

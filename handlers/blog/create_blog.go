@@ -11,17 +11,17 @@ import (
 )
 
 func CreateBlogHandler(c *gin.Context) {
-	req := CreateBlogRequest{}
-	err := common.BindParams(c, &req)
+	req := &CreateBlogRequest{}
+	err := common.BindParams(c, req)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusOK, common.BuildHttpErrorResponse(err))
+		c.AbortWithStatusJSON(http.StatusOK, common.BuildRespByErr(err))
 		return
 	}
-	resp, err := services.CreateBlog(&req)
+	resp, err := services.CreateBlogService(req)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusOK, common.BuildHttpErrorResponse(err))
+		c.AbortWithStatusJSON(http.StatusOK, common.BuildRespByErr(err))
 		return
 	}
-	c.JSON(constant.OK, common.BuildHttpResponse(constant.OK, "OK", resp))
+	c.JSON(constant.OK, common.BuildResp(constant.OK, "OK", resp))
 	return
 }

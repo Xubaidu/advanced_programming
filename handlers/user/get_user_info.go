@@ -1,4 +1,4 @@
-package blog
+package user
 
 import (
 	"advanced_programming/common"
@@ -10,14 +10,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func UpdateBlogHandler(c *gin.Context) {
-	req := &UpdateBlogRequest{}
-	err := common.BindParams(c, req)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusOK, common.BuildRespByErr(err))
-		return
+func GetUserInfoHandler(c *gin.Context) {
+	filter := map[string]interface{}{
+		"name": c.Query("name"),
 	}
-	resp, err := services.UpdateBlogService(req)
+	req := &GetUserInfoRequest{
+		Filter: filter,
+	}
+	resp, err := services.GetUserInfoService(req)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusOK, common.BuildRespByErr(err))
 		return
