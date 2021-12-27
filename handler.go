@@ -29,4 +29,5 @@ func BlogRegister(r *gin.Engine) {
 	BlogGroup.POST("/update_blog", blog.UpdateBlogHandler)
 	BlogGroup.DELETE("/delete_blog", blog.DeleteBlogHandler)
 	BlogGroup.GET("/top_k", blog.TopKBlogHandler)
+	BlogGroup.POST("/add_star", blog.AddStarHandler)
 }

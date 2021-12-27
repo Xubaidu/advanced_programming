@@ -10,41 +10,68 @@ import (
 )
 
 func RegisterService(req *RegisterRequest) (resp *RegisterResponse, err error) {
+
+	// 先查找用户是否已存在
 	filter := map[string]interface{}{
-		"name": req.Name,
+		"email": req.Email,
 	}
 	if user, _ := dal.GetUser(filter); user != nil {
-		log.Printf("用户名已存在")
-		return nil, common.NewError(constant.UserDuplicateError, "用户名已存在")
-	}
-	app := &models.User{
-		Name:     req.Name,
-		Password: req.Password,
-	}
-	err = dal.CreateUser(app)
-	if err != nil {
+		log.Printf("用户已存在")
 		return nil, err
 	}
+
+	// 创建用户
+	user := &models.User{
+		Name:     req.Name,
+		Password: req.Password,
+		Email:    req.Email,
+	}
+	if err := dal.CreateUser(user); err != nil {
+		return nil, err
+	}
+
+	// 给注册邮箱发一封邮件
+	sendMailReq := &SendMailRequest{
+		From:        constant.SMTPUsername,
+		To:          req.Email,
+		Subject:     constant.MailGreetingSubject,
+		ContentType: constant.MailContentType,
+		Body:        constant.MailGreetingBody,
+	}
+	if _, err := SendMailService(sendMailReq); err != nil {
+		return nil, err
+	}
+
+	// 返回响应并返回
 	resp = &RegisterResponse{
-		Name:   app.Name,
-		UserID: app.UserID,
+		Name:   user.Name,
+		UserID: user.UserID,
+		Email:  user.Email,
 	}
 	return resp, nil
 }
 
 func LoginService(req *LoginRequest) (resp *LoginResponse, err error) {
+
+	// 查找用户
 	filter := map[string]interface{}{
-		"name": req.Name,
+		"email": req.Email,
 	}
-	user, _ := dal.GetUser(filter)
-	if user == nil {
+	user, err := dal.GetUser(filter)
+
+	// 数据库校验
+	if err != nil {
 		log.Printf("用户不存在")
 		return nil, common.NewError(constant.UserMissingError, "错误的用户名，用户不存在，你在搞笑？")
 	}
+
+	// 密码校验
 	if user.Password != req.Password {
 		log.Printf("密码错误")
 		return nil, common.NewError(constant.PasswordWrongError, "密码都能输错？")
 	}
+
+	// 构造响应并返回
 	resp = &LoginResponse{
 		UserInfo: user,
 	}

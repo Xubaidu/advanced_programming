@@ -5,7 +5,7 @@ import "mime/multipart"
 type UploadFileRequest struct {
 	File     multipart.File
 	FileName string
-	UserID   int64
+	UserID   int
 }
 
 type UploadFileResponse struct {

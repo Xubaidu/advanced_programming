@@ -4,9 +4,10 @@ import "github.com/jinzhu/gorm"
 
 type User struct {
 	gorm.Model
-	UserID   int64  `gorm:"column:id" json:"user_id"`
+	UserID   int    `gorm:"column:id" json:"user_id"`
 	Name     string `gorm:"column:name" json:"name"`
 	Password string `gorm:"password" json:"password"`
+	Email    string `gorm:"email" json:"email"`
 	Resume   string `gorm:"column:resume" json:"resume"`
 }
 

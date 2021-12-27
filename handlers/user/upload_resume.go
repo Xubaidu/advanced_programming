@@ -31,7 +31,7 @@ func UploadResumeHandler(c *gin.Context) {
 	req := &UploadFileRequest{
 		File:     resume,
 		FileName: header.Filename,
-		UserID:   int64(userID),
+		UserID:   userID,
 	}
 
 	// 获取上传文件的响应

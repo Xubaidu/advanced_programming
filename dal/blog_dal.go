@@ -20,7 +20,7 @@ func CreateBlog(blog *models.Blog) (err error) {
 	return nil
 }
 
-func GetBlogs(filter map[string]interface{}) (blogs []*models.Blog, err error) {
+func GetBlogs(filter map[string]interface{}) (blogs models.Blogs, err error) {
 	var DB = clients.DB
 
 	// 查询记录
@@ -55,24 +55,9 @@ func GetBlog(filter map[string]interface{}) (blog *models.Blog, err error) {
 func UpdateBlog(filter, updater map[string]interface{}) (err error) {
 	var DB = clients.DB
 
-	// 开启事务
-	tx := DB.Begin()
-	defer func() {
-		if r := recover(); r != nil {
-			tx.Rollback()
-		}
-	}()
-
-	// 判断事务是否开启
-	if err := tx.Error; err != nil {
-		log.Printf("%+v", err)
-		return common.NewError(constant.TransactionBeginError, "开启事务失败")
-	}
-
 	// 存在才更新
 	if _, err = GetBlog(filter); err != nil {
 		log.Printf("%+v", err)
-		tx.Rollback()
 		return common.NewError(constant.RecordNotFound, "没有查询到相关记录")
 	}
 
@@ -80,16 +65,8 @@ func UpdateBlog(filter, updater map[string]interface{}) (err error) {
 	for k, v := range updater {
 		if err := DB.Model(&models.Blog{}).Where(filter).Update(k, v).Error; err != nil {
 			log.Printf("%+v", err)
-			tx.Rollback()
 			return common.NewError(constant.RecordUpdateError, "更新记录失败")
 		}
-	}
-
-	// 提交事务
-	if err := tx.Commit().Error; err != nil {
-		log.Printf("%+v", err)
-		tx.Rollback()
-		return common.NewError(constant.TransactionCommitError, "提交事务失败")
 	}
 
 	// 正常返回

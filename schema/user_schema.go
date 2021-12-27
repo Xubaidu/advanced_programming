@@ -7,15 +7,17 @@ import (
 type RegisterRequest struct {
 	Name     string `json:"name"`
 	Password string `json:"password"`
+	Email    string `json:"email"`
 }
 
 type RegisterResponse struct {
 	Name   string `json:"name"`
-	UserID int64  `json:"user_id"`
+	UserID int    `json:"user_id"`
+	Email  string `json:"email"`
 }
 
 type LoginRequest struct {
-	Name     string `json:"name"`
+	Email    string `json:"email"`
 	Password string `json:"Password"`
 }
 

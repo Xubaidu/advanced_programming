@@ -2,6 +2,7 @@ package services
 
 import (
 	"advanced_programming/clients"
+	"advanced_programming/common"
 	"advanced_programming/constant"
 	"advanced_programming/dal"
 	. "advanced_programming/schema"
@@ -38,15 +39,21 @@ func UploadFileService(req *UploadFileRequest) (resp *UploadFileResponse, err er
 		}
 	}()
 
-	var DB = clients.DB
-
 	// 开启事务
+	var DB = clients.DB
 	tx := DB.Begin()
 	defer func() {
 		if r := recover(); r != nil {
 			tx.Rollback()
 		}
 	}()
+
+	// 判断事务是否开启
+	if err := tx.Error; err != nil {
+		log.Printf("%+v", err)
+		tx.Rollback()
+		return nil, common.NewError(constant.TransactionBeginError, "开启事务失败")
+	}
 
 	// 落库
 	filter := map[string]interface{}{

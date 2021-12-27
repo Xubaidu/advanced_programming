@@ -7,6 +7,18 @@ const (
 	SavedFilesPath  = "saved_files/"
 )
 
+// qq 邮箱常量
+const (
+	SMTPHost     = "smtp.qq.com"
+	SMTPPort     = 465
+	SMTPUsername = "1127862434@qq.com"
+	SMTPPassword = "ofeobzafgzatbaeg"
+
+	MailGreetingSubject = "欢迎注册，我的伙伴！"
+	MailGreetingBody    = "<h1>新年快乐</h1>"
+	MailContentType     = "text/html"
+)
+
 // 飞书 openapi 常量
 const (
 	UploadFileToLarkURL     = "https://open.feishu.cn/open-apis/drive/v1/files/upload_all"
@@ -25,7 +37,8 @@ const (
 	ParamsParseError    = 40001
 	ParamsValidateError = 40002
 
-	UnknownError           = 50000
+	UnknownError = 50000
+
 	DataQueryError         = 70000
 	UserDuplicateError     = 70001
 	UserMissingError       = 70002
@@ -40,6 +53,8 @@ const (
 	FileCloseError      = 80000
 	FileUploadError     = 80001
 	SaveUploadFileError = 80002
+
+	MailSendError = 90000
 )
 
 // 数据库字段常量
