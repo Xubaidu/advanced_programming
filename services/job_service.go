@@ -39,7 +39,7 @@ func ShowJobService(req *GetJobRequest) (resp *GetJobResponse, err error) {
 
 	// 构造过滤器
 	filter := map[string]interface{}{
-		"job_id": req.JobID,
+		"id": req.JobID,
 	}
 
 	// 查询记录
@@ -50,7 +50,7 @@ func ShowJobService(req *GetJobRequest) (resp *GetJobResponse, err error) {
 
 	// 根据 user_id 获取 user_name
 	filter = map[string]interface{}{
-		"user_id": job.UserID,
+		"id": job.UserID,
 	}
 	userName, err := dal.GetUserName(filter)
 	if err != nil {
