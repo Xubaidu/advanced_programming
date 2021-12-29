@@ -66,6 +66,19 @@ func GetUserResume(filter map[string]interface{}) (resume string, err error) {
 	return user.Resume, nil
 }
 
+func GetUserName(filter map[string]interface{}) (name string, err error) {
+	user, err := GetUser(filter)
+	if err != nil {
+		return "", err
+	}
+
+	if user.Name == "" {
+		return "", common.NewError(constant.DataQueryError, "没有查询到相关记录")
+	}
+
+	return user.Name, nil
+}
+
 func UpdateUser(filter, updater map[string]interface{}) (err error) {
 
 	var DB = clients.DB

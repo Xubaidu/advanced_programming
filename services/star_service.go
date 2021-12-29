@@ -77,7 +77,7 @@ func TopKStarService(k int) (resp *TopKStarResponse, err error) {
 
 	// 先从数据库中读取所有的 blog 记录
 	filter := map[string]interface{}{}
-	blogs, err := dal.GetBlogs(filter)
+	blogs, err := dal.GetAllBlogs(filter)
 	if err != nil {
 		return nil, err
 	}

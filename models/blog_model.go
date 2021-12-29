@@ -6,11 +6,11 @@ import (
 
 type Blog struct {
 	gorm.Model
-	BlogID   int    `gorm:"column:id"`
-	AuthorID int    `gorm:"column:author_id"`
-	Title    string `gorm:"column:title"`
-	Content  string `gorm:"column:content"`
-	Likes    int    `gorm:"column:likes"`
+	BlogID  int    `gorm:"column:id"`
+	UserID  int    `gorm:"column:user_id"`
+	Title   string `gorm:"column:title"`
+	Content string `gorm:"column:content"`
+	Likes   int    `gorm:"column:likes"`
 }
 
 type Comment struct {

@@ -3,6 +3,7 @@ package main
 import (
 	"advanced_programming/handlers/blog"
 	"advanced_programming/handlers/common"
+	"advanced_programming/handlers/job"
 	"advanced_programming/handlers/user"
 
 	"github.com/gin-gonic/gin"
@@ -30,4 +31,13 @@ func BlogRegister(r *gin.Engine) {
 	BlogGroup.DELETE("/delete_blog", blog.DeleteBlogHandler)
 	BlogGroup.GET("/top_k", blog.TopKBlogHandler)
 	BlogGroup.POST("/add_star", blog.AddStarHandler)
+}
+
+func JobRegister(r *gin.Engine) {
+	JobGroup := r.Group("/job")
+	JobGroup.POST("/campaign_job", job.CampaignJobHandler)
+	JobGroup.GET("/show_job_list", job.ShowJobListHandler)
+	JobGroup.GET("/show_job", job.ShowJobHandler)
+	JobGroup.POST("/update_job", job.UpdateJobHandler)
+	JobGroup.DELETE("/delete_job", job.DeleteJobHandler)
 }

@@ -28,4 +28,5 @@ func Register(r *gin.Engine) {
 	IndexRegister(r)
 	UserRegister(r)
 	BlogRegister(r)
+	JobRegister(r)
 }

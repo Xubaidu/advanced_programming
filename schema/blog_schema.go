@@ -9,26 +9,28 @@ type CreateBlogRequest struct {
 }
 
 type CreateBlogResponse struct {
-	UserID  int    `json:"user_id"`
-	BlogID  int    `json:"blog_id"`
-	Title   string `json:"title"`
-	Content string `json:"content"`
+	Blog *models.Blog `json:"blog"`
+	Msg  string       `json:"msg"`
 }
 
 type GetBlogRequest struct {
-	Filter map[string]interface{} `json:"filter"`
+	BlogID int `json:"blog_id"`
 }
 
 type GetBlogResponse struct {
-	Blog *models.Blog `json:"blog"`
+	UserName string       `json:"user_name"`
+	Blog     *models.Blog `json:"blog"`
+	Msg      string       `json:"msg"`
 }
 
 type GetBlogListRequest struct {
-	Filter map[string]interface{} `json:"filter"`
+	Limit int
 }
 
 type GetBlogListResponse struct {
-	Blogs []*models.Blog `json:"blogs"`
+	UserNames []string       `json:"user_names"` // blogs 对应的作者名
+	Blogs     []*models.Blog `json:"blogs"`
+	Msg       string         `json:"msg"`
 }
 
 type UpdateBlogRequest struct {
@@ -39,9 +41,7 @@ type UpdateBlogRequest struct {
 }
 
 type UpdateBlogResponse struct {
-	BlogID  int    `json:"blog_id"`
-	Title   string `json:"title"`
-	Content string `json:"content"`
+	Msg string `json:"msg"`
 }
 
 type DeleteBlogRequest struct {
@@ -49,5 +49,5 @@ type DeleteBlogRequest struct {
 }
 
 type DeleteBlogResponse struct {
-	BlogID int `json:"blog_id"`
+	Msg string `json:"msg"`
 }

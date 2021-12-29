@@ -20,12 +20,29 @@ func CreateBlogLiker(liker *models.BlogLiker) (err error) {
 	return nil
 }
 
+// GerStarGivers 将 blog_liker 和 user join
+// 获取为 blogID 的帖子点赞的所有 user 的 email
+// 然后 notify
 func GerStarGivers(blogID int) (users []*models.User, err error) {
 	var DB = clients.DB
 
 	filter := map[string]interface{}{
-		"blog_id": blogID,
+		"id": blogID,
 	}
+
+	// 先查询 blog 的喜欢数
+	blog, err := GetBlog(filter)
+	if err != nil {
+		return nil, err
+	}
+
+	// 如果为 0 直接返回，不用 notify
+	if blog.Likes == 0 {
+		return users, nil
+	}
+
+	// select user.email from user join blog_liker on blog_liker.user_id = user.id
+	// where blog_id = blogID;
 	DB = DB.Table("user").Where(filter).Select("user.email").
 		Joins("join blog_liker on blog_liker.user_id = user.id").Take(&users)
 

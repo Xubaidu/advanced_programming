@@ -8,6 +8,7 @@ import (
 	"log"
 )
 
+// CreateBlog 创建一条 blog 记录
 func CreateBlog(blog *models.Blog) (err error) {
 	var DB = clients.DB
 
@@ -20,7 +21,8 @@ func CreateBlog(blog *models.Blog) (err error) {
 	return nil
 }
 
-func GetBlogs(filter map[string]interface{}) (blogs models.Blogs, err error) {
+// GetAllBlogs 查询所有 blog
+func GetAllBlogs(filter map[string]interface{}) (blogs models.Blogs, err error) {
 	var DB = clients.DB
 
 	// 查询记录
@@ -38,12 +40,32 @@ func GetBlogs(filter map[string]interface{}) (blogs models.Blogs, err error) {
 	return blogs, nil
 }
 
-func GetBlog(filter map[string]interface{}) (blog *models.Blog, err error) {
+// GetLimitBlogs 查询 limit 个 blog
+func GetLimitBlogs(limit int, filter map[string]interface{}) (blogs models.Blogs, err error) {
 	var DB = clients.DB
 
-	blog = &models.Blog{}
+	// 查询记录
+	if err := DB.Limit(limit).Where(filter).Find(&blogs).Error; err != nil {
+		log.Printf("%+v", err)
+		return nil, common.NewError(constant.RecordNotFound, "没有查询到相关记录")
+	}
+
+	// 异常处理
+	if len(blogs) == 0 {
+		log.Printf("没有符合条件的查询")
+		return nil, common.NewError(constant.DataQueryError, "没有符合条件的查询")
+	}
+
+	return blogs, nil
+}
+
+// GetBlog 查询一个 blog
+func GetBlog(filter map[string]interface{}) (blog *models.Blog, err error) {
+
+	var DB = clients.DB
 
 	// 查询记录，查不到会返回 ErrRecordNotFound 错误
+	blog = &models.Blog{}
 	if err := DB.Where(filter).Take(blog).Error; err != nil {
 		log.Printf("%+v", err)
 		return nil, common.NewError(constant.RecordNotFound, "没有查询到相关记录")
@@ -52,10 +74,11 @@ func GetBlog(filter map[string]interface{}) (blog *models.Blog, err error) {
 	return blog, nil
 }
 
+// UpdateBlog 修改 blog
 func UpdateBlog(filter, updater map[string]interface{}) (err error) {
 	var DB = clients.DB
 
-	// 存在才更新
+	// 判断是否存在
 	if _, err = GetBlog(filter); err != nil {
 		log.Printf("%+v", err)
 		return common.NewError(constant.RecordNotFound, "没有查询到相关记录")
@@ -73,6 +96,7 @@ func UpdateBlog(filter, updater map[string]interface{}) (err error) {
 	return nil
 }
 
+// DeleteBlog 删除 blog
 func DeleteBlog(filter map[string]interface{}) (err error) {
 	var DB = clients.DB
 
