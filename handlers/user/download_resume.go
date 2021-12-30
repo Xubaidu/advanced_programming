@@ -14,6 +14,7 @@ import (
 func DownloadResumeHandler(c *gin.Context) {
 
 	// 	获取 user_id，用于后续查询
+	//fileDir := c.Query("file_dir")
 	userID, _ := strconv.Atoi(c.Query("user_id"))
 
 	// 构造请求
@@ -33,12 +34,14 @@ func DownloadResumeHandler(c *gin.Context) {
 	// 重点：设置一些 header 信息
 	header := map[string]string{
 		"Content-Type":              "application/octet-stream",
-		"Content-Disposition":       "inline;filename = " + resp.FileName, // 浏览器下载或预览
+		"Content-Disposition":       "attachment;filename=" + resp.FileName,
 		"Content-Transfer-Encoding": "binary",
 		"Cache-Control":             "no-cache",
 	}
 	for k, v := range header {
 		c.Header(k, v)
 	}
+	//c.File(filePath)
+	c.File(resp.FilePath)
 	c.JSON(constant.OK, common.BuildResp(constant.OK, "OK", resp))
 }

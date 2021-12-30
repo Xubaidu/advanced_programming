@@ -106,6 +106,7 @@ func DownloadFileService(req *DownloadFileRequest) (resp *DownloadFileResponse, 
 	// 返回响应
 	resp = &DownloadFileResponse{
 		FileName: path.Base(dstPath),
+		FilePath: "./" + dstPath,
 	}
 	return resp, nil
 }

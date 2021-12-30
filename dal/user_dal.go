@@ -91,11 +91,9 @@ func GetUserResume(filter map[string]interface{}) (resume string, err error) {
 	if err != nil {
 		return "", err
 	}
-
 	if user.Resume == "" {
 		return "", common.NewError(constant.DataQueryError, "没有查询到相关记录")
 	}
-
 	return user.Resume, nil
 }
 
@@ -104,11 +102,9 @@ func GetUserName(filter map[string]interface{}) (name string, err error) {
 	if err != nil {
 		return "", err
 	}
-
 	if user.Name == "" {
 		return "", common.NewError(constant.DataQueryError, "没有查询到相关记录")
 	}
-
 	return user.Name, nil
 }
 

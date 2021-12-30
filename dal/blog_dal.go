@@ -36,7 +36,6 @@ func GetAllBlogs(filter map[string]interface{}) (blogs models.Blogs, err error) 
 		log.Printf("没有符合条件的查询")
 		return nil, common.NewError(constant.DataQueryError, "没有符合条件的查询")
 	}
-
 	return blogs, nil
 }
 
