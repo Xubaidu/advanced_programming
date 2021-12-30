@@ -79,12 +79,30 @@ func LoginService(req *LoginRequest) (resp *LoginResponse, err error) {
 }
 
 func GetUserInfoService(req *GetUserInfoRequest) (resp *GetUserInfoResponse, err error) {
-	user, err := dal.GetUser(req.Filter)
+	filter := map[string]interface{}{
+		"id": req.UserID,
+	}
+	user, err := dal.GetUser(filter)
 	if err != nil {
 		return nil, err
 	}
 	resp = &GetUserInfoResponse{
-		UserInfo: user,
+		UserID: user.UserID,
+		Name:   user.Name,
+		Email:  user.Email,
+		Resume: user.Resume,
+	}
+	return resp, nil
+}
+
+func GetUserApplyService(req *GetUserApplyRequest) (resp *GetUserApplyResponse, err error) {
+	applierID := req.UserID
+	jobs, err := dal.GetUserApply(applierID)
+	if err != nil {
+		return nil, err
+	}
+	resp = &GetUserApplyResponse{
+		Jobs: jobs,
 	}
 	return resp, nil
 }

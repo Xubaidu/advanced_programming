@@ -1,4 +1,4 @@
-package user
+package job
 
 import (
 	"advanced_programming/common"
@@ -6,21 +6,22 @@ import (
 	. "advanced_programming/schema"
 	"advanced_programming/services"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
-func GetUserInfoHandler(c *gin.Context) {
-	userID, _ := strconv.Atoi(c.Query("user_id"))
-	req := &GetUserInfoRequest{
-		UserID: userID,
-	}
-	resp, err := services.GetUserInfoService(req)
+func ApplyHandler(c *gin.Context) {
+	// 绑定请求
+	req := &ApplyRequest{}
+	err := common.BindParams(c, req)
+
+	// 获取响应
+	resp, err := services.ApplyService(req)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusOK, common.BuildRespByErr(err))
 		return
 	}
+
+	// 返回响应
 	c.JSON(constant.OK, common.BuildResp(constant.OK, "OK", resp))
-	return
 }

@@ -144,6 +144,13 @@ func UpdateBlogService(req *UpdateBlogRequest) (resp *UpdateBlogResponse, err er
 		return nil, err
 	}
 
+	// 提交事务
+	if err := tx.Commit().Error; err != nil {
+		log.Printf("%+v", err)
+		tx.Rollback()
+		return nil, err
+	}
+
 	// 如果有点赞者，提醒他们
 	if users != nil {
 		for _, user := range users {

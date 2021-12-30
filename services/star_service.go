@@ -65,6 +65,13 @@ func AddStarService(req *AddStarRequest) (resp *AddStarResponse, err error) {
 		return nil, err
 	}
 
+	// 提交事务
+	if err := tx.Commit().Error; err != nil {
+		log.Printf("%+v", err)
+		tx.Rollback()
+		return nil, err
+	}
+
 	// 返回响应
 	resp = &AddStarResponse{
 		UserID: req.UserID,

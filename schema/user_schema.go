@@ -26,9 +26,20 @@ type LoginResponse struct {
 }
 
 type GetUserInfoRequest struct {
-	Filter map[string]interface{} `json:"filter"`
+	UserID int `json:"user_id"`
 }
 
 type GetUserInfoResponse struct {
-	UserInfo *models.User `json:"user_info"`
+	UserID int    `json:"user_id"`
+	Name   string `json:"name"`
+	Email  string `json:"email"`
+	Resume string `json:"resume"`
+}
+
+type GetUserApplyRequest struct {
+	UserID int
+}
+
+type GetUserApplyResponse struct {
+	Jobs []*models.Job `json:"jobs"`
 }

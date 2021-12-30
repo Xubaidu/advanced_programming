@@ -52,3 +52,12 @@ type DeleteJobRequest struct {
 type DeleteJobResponse struct {
 	Msg string `json:"msg"`
 }
+
+type ApplyRequest struct {
+	UserID int `json:"user_id"`
+	JobID  int `json:"job_id"`
+}
+
+type ApplyResponse struct {
+	Msg string `json:"msg"`
+}

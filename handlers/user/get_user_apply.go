@@ -11,12 +11,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetUserInfoHandler(c *gin.Context) {
+func GetUserApplyHandler(c *gin.Context) {
 	userID, _ := strconv.Atoi(c.Query("user_id"))
-	req := &GetUserInfoRequest{
+	req := &GetUserApplyRequest{
 		UserID: userID,
 	}
-	resp, err := services.GetUserInfoService(req)
+	resp, err := services.GetUserApplyService(req)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusOK, common.BuildRespByErr(err))
 		return

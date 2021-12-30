@@ -15,6 +15,17 @@ type Job struct {
 	Applicants int    `gorm:"column:applicants"`             // 申请总人数
 }
 
+type Apply struct {
+	gorm.Model
+	ID     int `gorm:"id"`
+	JobID  int `gorm:"column:job_id" json:"job_id"`   // 申请岗位
+	UserID int `gorm:"column:user_id" json:"user_id"` // 申请者
+}
+
 func (Job) TableName() string {
 	return "job"
+}
+
+func (Apply) TableName() string {
+	return "apply"
 }

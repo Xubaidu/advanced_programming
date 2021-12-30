@@ -39,46 +39,6 @@ func GetUsers(filter map[string]interface{}) (users []*models.User, err error) {
 	return users, nil
 }
 
-func GetUser(filter map[string]interface{}) (user *models.User, err error) {
-	var DB = clients.DB
-
-	user = &models.User{}
-
-	// 查询记录，查不到会返回 ErrRecordNotFound 错误
-	if err := DB.Where(filter).Take(user).Error; err != nil {
-		log.Printf("%+v", err)
-		return nil, common.NewError(constant.RecordNotFound, "没有查询到相关记录")
-	}
-
-	return user, nil
-}
-
-func GetUserResume(filter map[string]interface{}) (resume string, err error) {
-	user, err := GetUser(filter)
-	if err != nil {
-		return "", err
-	}
-
-	if user.Resume == "" {
-		return "", common.NewError(constant.DataQueryError, "没有查询到相关记录")
-	}
-
-	return user.Resume, nil
-}
-
-func GetUserName(filter map[string]interface{}) (name string, err error) {
-	user, err := GetUser(filter)
-	if err != nil {
-		return "", err
-	}
-
-	if user.Name == "" {
-		return "", common.NewError(constant.DataQueryError, "没有查询到相关记录")
-	}
-
-	return user.Name, nil
-}
-
 func UpdateUser(filter, updater map[string]interface{}) (err error) {
 
 	var DB = clients.DB
@@ -111,6 +71,45 @@ func DeleteUser(filter map[string]interface{}) (err error) {
 	}
 
 	return nil
+}
+
+func GetUser(filter map[string]interface{}) (user *models.User, err error) {
+	var DB = clients.DB
+
+	// 查询记录，查不到会返回 ErrRecordNotFound 错误
+	user = &models.User{}
+	if err := DB.Where(filter).Take(user).Error; err != nil {
+		log.Printf("%+v", err)
+		return nil, common.NewError(constant.RecordNotFound, "没有查询到相关记录")
+	}
+
+	return user, nil
+}
+
+func GetUserResume(filter map[string]interface{}) (resume string, err error) {
+	user, err := GetUser(filter)
+	if err != nil {
+		return "", err
+	}
+
+	if user.Resume == "" {
+		return "", common.NewError(constant.DataQueryError, "没有查询到相关记录")
+	}
+
+	return user.Resume, nil
+}
+
+func GetUserName(filter map[string]interface{}) (name string, err error) {
+	user, err := GetUser(filter)
+	if err != nil {
+		return "", err
+	}
+
+	if user.Name == "" {
+		return "", common.NewError(constant.DataQueryError, "没有查询到相关记录")
+	}
+
+	return user.Name, nil
 }
 
 func CheckUser(UserID int) (ok bool) {

@@ -49,6 +49,7 @@ const (
 	RecordDeleteError      = 70007
 	TransactionBeginError  = 70008
 	TransactionCommitError = 70009
+	DuplicateApplyError    = 70010
 
 	FileCloseError      = 80000
 	FileUploadError     = 80001

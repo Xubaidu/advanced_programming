@@ -19,7 +19,8 @@ func UserRegister(r *gin.Engine) {
 	UserGroup := r.Group("/user")
 	UserGroup.POST("/upload_resume", user.UploadResumeHandler)
 	UserGroup.GET("/download_resume", user.DownloadResumeHandler)
-	UserGroup.GET("/get_user_info", user.GetUserInfoHandler)
+	UserGroup.GET("/profile", user.GetUserInfoHandler)
+	UserGroup.GET("/my_applications", user.GetUserApplyHandler)
 }
 
 func BlogRegister(r *gin.Engine) {
@@ -40,4 +41,5 @@ func JobRegister(r *gin.Engine) {
 	JobGroup.GET("/show_job", job.ShowJobHandler)
 	JobGroup.POST("/update_job", job.UpdateJobHandler)
 	JobGroup.DELETE("/delete_job", job.DeleteJobHandler)
+	JobGroup.POST("/apply", job.ApplyHandler)
 }
