@@ -1,6 +1,6 @@
 # 高级编程
 
-高级编程课设后端，采用 go-gin 编写的 http 服务
+高级编程课设后端，采用 go-gin 编写的 http 服务，[技术文档链接](https://bytedance.feishu.cn/docx/doxcnJ76mHQbZm7ZVEC56wSqA1c#doxcnOcO4SG0OCeaWKcexqndGKd)
 
 ## 项目结构
 
